@@ -16,6 +16,15 @@ const styles = () => ({
     letterSpacing: '0.1rem',
     textTransform: 'uppercase'
   },
+  tab: {
+    padding: '1rem 2rem',
+    fontSize: '1.5rem',
+    fontFamily: 'Roboto',
+    fontWeight: '400',
+    lineHeight: '2rem',
+    letterSpacing: '0.1rem',
+    textTransform: 'uppercase'
+  },
   menuButton: {
     '&: hover': {
       borderRadius: 0

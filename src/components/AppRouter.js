@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import APP_CONTENT from '../constants/AppRouter';
+import { APP_CONTENT } from '../constants/AppRouter';
 
 const AppRouter = () => (
   <Suspense

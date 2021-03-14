@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { withStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -7,13 +5,21 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
-import { shape, string } from 'prop-types';
-import APP_CONTENT from '../../constants/AppRouter';
+import { object } from 'prop-types';
+import { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { APP_CONTENT, APP_NAME } from '../../constants/AppRouter';
 import styles from './styles';
 
 const AppNav = ({ classes }) => {
   const history = useHistory();
+  const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [tab, setTab] = useState('');
+
+  useEffect(() => {
+    setTab(APP_CONTENT[location.pathname.replace(/^\//, '')]?.name || 'Home');
+  }, [location]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,7 +34,8 @@ const AppNav = ({ classes }) => {
 
   return (
     <section className={classes.root}>
-      <div className={classes.title}>CATS</div>
+      <div className={classes.title}>{APP_NAME}</div>
+      <div className={classes.tab}>{tab}</div>
       <Button
         className={classes.menuButton}
         startIcon={<MenuIcon />}
@@ -61,7 +68,7 @@ const AppNav = ({ classes }) => {
 };
 
 AppNav.propTypes = {
-  classes: shape({ root: string.isRequired }).isRequired
+  classes: object.isRequired
 };
 
 export default withStyles(styles, { name: 'AppNav' })(AppNav);

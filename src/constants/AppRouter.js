@@ -1,7 +1,9 @@
 import HomeIcon from '@material-ui/icons/Home';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
-const APP_CONTENT = Object.freeze({
+export const APP_NAME = 'CATS';
+
+export const APP_CONTENT = Object.freeze({
   home: {
     id: 'home',
     name: 'Home',
@@ -17,5 +19,3 @@ const APP_CONTENT = Object.freeze({
     component: import('../pages/Upload')
   }
 });
-
-export default APP_CONTENT;

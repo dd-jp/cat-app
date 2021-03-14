@@ -1,3 +1,9 @@
-const Upload = () => <div>Upload</div>;
+import ImageUploader from '../components/image-uploader/ImageUploader';
+
+const Upload = () => (
+  <div className="content-container">
+    <ImageUploader />
+  </div>
+);
 
 export default Upload;
