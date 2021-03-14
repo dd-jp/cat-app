@@ -26,7 +26,6 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css,md}": [
-      "yarn format",
       "yarn lint:fix"
     ]
   },
