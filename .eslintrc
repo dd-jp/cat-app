@@ -16,7 +16,7 @@
   ],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2020,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true,
@@ -36,6 +36,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
+    "react/jsx-props-no-spreading": "off",
     "no-console": "off",
     "comma-dangle": 0,
     "react/prop-types": ["error"],
