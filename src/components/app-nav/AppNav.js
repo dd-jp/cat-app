@@ -19,7 +19,10 @@ const AppNav = ({ classes }) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (path) => {
+    if (path) {
+      history.push(path);
+    }
     setAnchorEl(null);
   };
 
@@ -40,7 +43,7 @@ const AppNav = ({ classes }) => {
       >
         {Object.keys(APP_CONTENT).map((id) => (
           <MenuItem
-            onClick={() => history.push(APP_CONTENT[id].path)}
+            onClick={() => handleClose(APP_CONTENT[id].path)}
             key={`menu-button-${id}`}
           >
             <ListItemIcon className={classes.listItemIcon}>

@@ -32,6 +32,10 @@ code {
   flex-direction: column;
 }
 
+.content-container {
+  height: calc(100vh - 3.8rem);
+}
+
 .app-info-container {
   margin: 2rem auto;
   display: flex;

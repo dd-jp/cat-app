@@ -1,8 +1,7 @@
 import ImageContainer from '../components/image-container/ImageContainer';
 
 const Home = () => (
-  <div>
-    Home
+  <div className="content-container">
     <ImageContainer />
   </div>
 );

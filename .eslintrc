@@ -41,6 +41,7 @@
     "comma-dangle": 0,
     "react/prop-types": ["error"],
     "prettier/prettier": ["error"],
+    "react/forbid-prop-types": 0,
     "compat/compat": "off"
   }
 }

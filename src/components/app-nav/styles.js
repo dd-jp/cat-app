@@ -4,7 +4,7 @@ const styles = () => ({
   root: {
     display: 'flex',
     justifyContent: 'space-between',
-    color: 'rgba(0, 0, 0, 0.87)',
+    color: 'black',
     background: grey[300]
   },
   title: {
