@@ -17,7 +17,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint \"src/**/*.{js,jsx,json}\"",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "prettier \"src/**/*.{js,jsx,json}\" --write && eslint \"src/**/*.{js,jsx,json}\" --fix"
   },
   "husky": {
     "hooks": {
