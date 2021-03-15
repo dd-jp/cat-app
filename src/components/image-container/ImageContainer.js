@@ -1,125 +1,21 @@
 import { withStyles } from '@material-ui/core';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import Pagination from '@material-ui/lab/Pagination';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { shape, string } from 'prop-types';
+import { arrayOf, func, number, object } from 'prop-types';
 import ImageContainerTile from './ImageContainerTile';
 import styles from './styles';
 
-const tileData = [
-  {
-    img: '/static/cfn.jpg',
-    title: 'Breakfast',
-    author: 'jill111',
-    cols: 1,
-    featured: false
-  },
-  {
-    img: '/static/bike.jpg',
-    title: 'Tasty burger',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/breakfast.jpg',
-    title: 'Breakfast1',
-    author: 'jill111',
-    cols: 1,
-    featured: false
-  },
-  {
-    img: '/static/random-dice.jpg',
-    title: 'Dice',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/dactfp5-95ae913e-2c91-4a06-bd43-7e70986355d5.png',
-    title: 'Dog',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/twitter.jpg',
-    title: 'twitter',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/TombRaider.png',
-    title: 'TombRaider',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/TombRaider.png',
-    title: 'TombRaider',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/TombRaider.png',
-    title: 'TombRaider',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/TombRaider.png',
-    title: 'TombRaider',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/TombRaider.png',
-    title: 'TombRaider',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/TombRaider.png',
-    title: 'TombRaider',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/TombRaider.png',
-    title: 'TombRaider',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/TombRaider.png',
-    title: 'TombRaider',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/TombRaider.png',
-    title: 'TombRaider',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/TombRaider.png',
-    title: 'TombRaider',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/TombRaider.png',
-    title: 'TombRaider',
-    author: 'director90',
-    cols: 1
-  },
-  {
-    img: '/static/TombRaider.png',
-    title: 'TombRaider',
-    author: 'director90',
-    cols: 1
-  }
-];
-
-const ImageContainer = ({ classes }) => {
+const ImageContainer = ({
+  classes,
+  tileData,
+  metaData,
+  refreshVoteData,
+  refreshFavourites,
+  pageCount,
+  handlePageChange
+}) => {
   const desktop = useMediaQuery('(min-width:900px)');
   const tablet = useMediaQuery('(min-width:600px)');
 
@@ -139,22 +35,39 @@ const ImageContainer = ({ classes }) => {
       >
         {tileData.map((tile) => (
           <GridListTile
-            key={tile.img}
-            cols={tile.cols || 1}
+            key={tile.url}
+            cols={1}
             style={{
               paddingTop: '1rem'
             }}
           >
-            <ImageContainerTile tile={tile} />
+            <ImageContainerTile
+              tile={tile}
+              metaData={metaData[tile.id]}
+              refreshVoteData={refreshVoteData}
+              refreshFavourites={refreshFavourites}
+            />
           </GridListTile>
         ))}
       </GridList>
+      <Pagination
+        onChange={handlePageChange}
+        count={pageCount}
+        color="primary"
+        className={classes.pagination}
+      />
     </div>
   );
 };
 
 ImageContainer.propTypes = {
-  classes: shape({ root: string.isRequired }).isRequired
+  classes: object.isRequired,
+  tileData: arrayOf(object).isRequired,
+  metaData: object.isRequired,
+  pageCount: number.isRequired,
+  handlePageChange: func.isRequired,
+  refreshVoteData: func.isRequired,
+  refreshFavourites: func.isRequired
 };
 
 export default withStyles(styles, { name: 'ImageContainer' })(ImageContainer);

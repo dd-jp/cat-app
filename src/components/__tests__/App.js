@@ -1,13 +1,14 @@
 import { render } from '@testing-library/react';
 import App from '../App';
 
-jest.mock('../../pages/Home');
-jest.mock('../../pages/Upload');
+jest.mock('../app-nav/AppNav');
+jest.mock('../AppRouter');
 
 describe('App', () => {
   test('renders Home and upload', () => {
     const { getByTestId } = render(<App />);
-    expect(getByTestId('mock-home')).toBeInTheDocument();
-    expect(getByTestId('mock-upload')).toBeInTheDocument();
+    expect(getByTestId('app')).toBeInTheDocument();
+    expect(getByTestId('mock-app-nav')).toBeInTheDocument();
+    expect(getByTestId('mock-app-router')).toBeInTheDocument();
   });
 });

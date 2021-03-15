@@ -7,13 +7,13 @@ const styles = () => ({
   },
   gridList: {
     width: '100%',
-    height: 'calc(100vh - 3.8rem)',
+    maxHeight: 'calc(100vh - 9rem)',
+    height: 'auto',
     transform: 'translateZ(0)'
   },
   titleBar: {
     background:
-      'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-      'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)'
+      'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0) 100%)'
   },
   icon: {
     color: 'white'
@@ -28,6 +28,11 @@ const styles = () => ({
   score: {
     paddingTop: '0.8rem',
     fontSize: '2rem'
+  },
+  pagination: {
+    padding: '1rem 0',
+    position: 'fixed',
+    bottom: 0
   }
 });
 

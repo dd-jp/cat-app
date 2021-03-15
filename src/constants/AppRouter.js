@@ -19,3 +19,5 @@ export const APP_CONTENT = Object.freeze({
     component: import('../pages/Upload')
   }
 });
+
+export const API_KEY = '7af93c2c-1819-4f22-b908-0343b7c07010';
