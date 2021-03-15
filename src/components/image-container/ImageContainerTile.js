@@ -47,15 +47,15 @@ const ImageContainerTile = ({
     if (setFavouriteApi.data?.response || deleteFavouriteApi.data?.response) {
       refreshFavourites(`${URL.getFavourite}?sub_id=${SUB_ID}`);
     }
-  }, [setFavouriteApi.data, deleteFavouriteApi.data]);
+  }, [setFavouriteApi.data, deleteFavouriteApi.data, refreshFavourites]);
 
   useEffect(() => {
-    if (setFavouriteApi.error) {
+    if (setFavouriteApi.error || deleteFavouriteApi.error) {
       alert(
         setFavouriteApi.error?.response?.data?.message || 'Set Favourite failed'
       );
     }
-  }, [setFavouriteApi.error]);
+  }, [setFavouriteApi.error, deleteFavouriteApi.error]);
 
   return (
     <Card>
@@ -70,7 +70,7 @@ const ImageContainerTile = ({
         title={tile.id}
         titlePosition="top"
         actionIcon={
-          setFavouriteApi.isLoading ? (
+          setFavouriteApi.isLoading || deleteFavouriteApi.isLoading ? (
             <CircularProgress disableShrink />
           ) : (
             <IconButton
