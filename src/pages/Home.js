@@ -34,41 +34,48 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (getVoteApi.data?.response && getFavouritesApi.data?.response) {
+    if (
+      tileData &&
+      getVoteApi.data?.response &&
+      getFavouritesApi.data?.response
+    ) {
       getVoteApi.setUrl(null);
       getFavouritesApi.setUrl(null);
 
       setMetaData(
-        getVoteApi.data.response.reduce((acc, obj) => {
+        tileData.reduce((acc, obj) => {
           const favourite = getFavouritesApi.data.response.find(
-            (favObj) => favObj.image_id === obj.image_id
+            (favObj) => favObj.image_id === obj.id
           );
 
-          if (!acc[obj.image_id]) {
-            acc[obj.image_id] = {
+          const liked = getVoteApi.data.response.find(
+            (likeObj) => likeObj.image_id === obj.id
+          );
+
+          if (!acc[obj.id]) {
+            acc[obj.id] = {
               like: 0,
               dislike: 0,
-              favouriteId: favourite?.id
+              favouriteId: undefined
             };
           }
 
-          acc[obj.image_id] = {
+          acc[obj.id] = {
             like:
-              obj.value === 1
-                ? (acc[obj.image_id].like += 1)
-                : acc[obj.image_id].like,
+              liked?.value === 1 ? (acc[obj.id].like += 1) : acc[obj.id].like,
             dislike:
-              obj.value === 0
-                ? (acc[obj.image_id].dislike += 1)
-                : acc[obj.image_id].dislike,
+              liked?.value === 0
+                ? (acc[obj.id].dislike += 1)
+                : acc[obj.id].dislike,
             favouriteId: favourite?.id
           };
+
           return acc;
         }, {})
       );
     }
     // eslint-disable-next-line
-  }, [getVoteApi.data, getFavouritesApi.data]);
+  }, [getVoteApi.data, getFavouritesApi.data, tileData]);
 
   useEffect(() => {
     getAllImages.setUrl(
