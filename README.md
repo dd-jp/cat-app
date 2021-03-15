@@ -6,6 +6,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `API_KEY` in src\constants\AppRouter.js
+
+Please update API_KEY with your key generated from thecatapi.com,
+if you wish to start without images
+
 ### `yarn start`
 
 Runs the app in the development mode.\
