@@ -6,18 +6,19 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
 import URL from '../constants/URL';
 import ImageContainer from '../components/image-container/ImageContainer';
-import useGet from '../hooks/useGet';
+import useApi from '../hooks/useApi';
 import { MAX_IMAGES_PER_PAGE, SUB_ID } from '../constants/ImageContainer';
+import { getDefaultOptions } from '../hooks/defaultOptions';
 
 const Home = () => {
-  const getAllImages = useGet(null);
+  const getAllImages = useApi(null);
+  const getVoteApi = useApi(null);
+  const getFavouritesApi = useApi(null);
   const [isToastOpen, setToastOpen] = useState(false);
   const [tileData, setTileData] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [head, setHead] = useState(0);
   const [metaData, setMetaData] = useState({});
-  const getVoteApi = useGet(null);
-  const getFavouritesApi = useGet(null);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -28,19 +29,21 @@ const Home = () => {
   };
 
   useEffect(() => {
-    getVoteApi.setUrl(`${URL.getVotes}?sub_id=${SUB_ID}`);
-    getFavouritesApi.setUrl(`${URL.getFavourite}?sub_id=${SUB_ID}`);
+    getVoteApi.setRequest({
+      url: `${URL.getVotes}?sub_id=${SUB_ID}`,
+      options: { ...getDefaultOptions }
+    });
+    getFavouritesApi.setRequest({
+      url: `${URL.getFavourite}?sub_id=${SUB_ID}`,
+      options: getDefaultOptions
+    });
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    if (
-      tileData &&
-      getVoteApi.data?.response &&
-      getFavouritesApi.data?.response
-    ) {
-      getVoteApi.setUrl(null);
-      getFavouritesApi.setUrl(null);
+    if (tileData && getVoteApi.response && getFavouritesApi.response) {
+      getVoteApi.setRequest(null);
+      getFavouritesApi.setRequest(null);
 
       setMetaData(
         tileData.reduce((acc, obj) => {
@@ -75,28 +78,32 @@ const Home = () => {
       );
     }
     // eslint-disable-next-line
-  }, [getVoteApi.data, getFavouritesApi.data, tileData]);
+  }, [getVoteApi.response, getFavouritesApi.response, tileData]);
 
   useEffect(() => {
-    getAllImages.setUrl(
-      `${URL.getUploadedImages}?limit=${MAX_IMAGES_PER_PAGE}&page=${head}&order=ASC`
-    );
+    getAllImages.setRequest({
+      url: `${URL.getUploadedImages}?limit=${MAX_IMAGES_PER_PAGE}&page=${head}&order=ASC`,
+      options: {
+        ...getDefaultOptions
+      }
+    });
     // eslint-disable-next-line
   }, [head]);
 
   useEffect(() => {
-    if (getAllImages.data?.response) {
-      setTileData(getAllImages.data.response);
+    if (getAllImages.response?.data) {
+      setTileData(getAllImages.response.data);
       if (pageCount < 1) {
         setPageCount(
           Math.ceil(
-            getAllImages.data.headers['pagination-count'] / MAX_IMAGES_PER_PAGE
+            getAllImages.response.headers['pagination-count'] /
+              MAX_IMAGES_PER_PAGE
           )
         );
       }
     }
     // eslint-disable-next-line
-  }, [getAllImages.data]);
+  }, [getAllImages.response]);
 
   useEffect(() => {
     if (getVoteApi.error || getFavouritesApi.error || getAllImages.error) {
@@ -110,8 +117,8 @@ const Home = () => {
       <ImageContainer
         tileData={tileData}
         metaData={metaData}
-        refreshVoteData={getVoteApi.setUrl}
-        refreshFavourites={getFavouritesApi.setUrl}
+        refreshVoteData={getVoteApi.setRequest}
+        refreshFavourites={getFavouritesApi.setRequest}
         pageCount={pageCount}
         handlePageChange={(e, n) => setHead(n - 1)}
       />

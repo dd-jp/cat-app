@@ -10,7 +10,7 @@ import { object, shape, string, func } from 'prop-types';
 import { useEffect } from 'react';
 import { DISLIKE, LIKE, SUB_ID } from '../../constants/ImageContainer';
 import URL from '../../constants/URL';
-import usePost from '../../hooks/usePost';
+import useApi from '../../hooks/useApi';
 import styles from './styles';
 
 const ImageContainerFooter = ({
@@ -19,7 +19,7 @@ const ImageContainerFooter = ({
   metaData = {},
   refreshVoteData
 }) => {
-  const createVoteApi = usePost(null);
+  const createVoteApi = useApi(null);
 
   const handleClick = (type) => {
     createVoteApi.setUrl({

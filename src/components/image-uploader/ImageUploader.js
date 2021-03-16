@@ -11,16 +11,13 @@ import { object } from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import URL from '../../constants/URL';
-import usePost from '../../hooks/usePost';
+import useApi from '../../hooks/useApi';
+import { postDefaultOptions } from '../../hooks/defaultOptions';
 import styles from './styles';
 
 const ImageUploader = ({ classes }) => {
   const history = useHistory();
-  const uploadApi = usePost(null, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  });
+  const uploadApi = useApi(null);
   const [selectedFiles, setSelectedFiles] = useState(undefined);
   const [isToastOpen, setToastOpen] = useState(false);
 
@@ -28,7 +25,16 @@ const ImageUploader = ({ classes }) => {
     if (selectedFiles) {
       const formData = new FormData();
       formData.append('file', selectedFiles);
-      uploadApi.setUrl({ path: URL.uploadImage, data: formData });
+      uploadApi.setRequest({
+        url: URL.uploadImage,
+        options: {
+          ...postDefaultOptions,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: formData
+        }
+      });
     }
   };
 
@@ -45,11 +51,11 @@ const ImageUploader = ({ classes }) => {
   };
 
   useEffect(() => {
-    if (uploadApi.data?.response) {
+    if (uploadApi.response) {
       history.push('/');
     }
     // eslint-disable-next-line
-  }, [uploadApi.data]);
+  }, [uploadApi.response]);
 
   useEffect(() => {
     if (uploadApi.error) {

@@ -12,8 +12,11 @@ import { func, object, shape, string } from 'prop-types';
 import { useEffect } from 'react';
 import URL from '../../constants/URL';
 import { SUB_ID } from '../../constants/ImageContainer';
-import usePost from '../../hooks/usePost';
-import useDelete from '../../hooks/useDelete';
+import useApi from '../../hooks/useApi';
+import {
+  getDefaultOptions,
+  deleteDefaultOptions
+} from '../../hooks/defaultOptions';
 import ImageContainerFooter from './ImageContainerFooter';
 import styles from './styles';
 
@@ -24,30 +27,43 @@ const ImageContainerTile = ({
   refreshVoteData,
   refreshFavourites
 }) => {
-  const setFavouriteApi = usePost(null);
-  const deleteFavouriteApi = useDelete(null);
+  const setFavouriteApi = useApi(null);
+  const deleteFavouriteApi = useApi(null);
 
   const handleFavouriteClick = () => {
     if (metaData.favouriteId) {
-      deleteFavouriteApi.setUrl(
-        URL.removeFavourite.replace(/{.*}/, metaData.favouriteId)
-      );
+      deleteFavouriteApi.setRequest({
+        url: URL.removeFavourite.replace(/{.*}/, metaData.favouriteId),
+        options: {
+          ...deleteDefaultOptions
+        }
+      });
     } else {
-      setFavouriteApi.setUrl({
-        path: URL.setFavourite,
-        data: {
-          image_id: tile.id,
-          sub_id: SUB_ID
+      setFavouriteApi.setRequest({
+        url: URL.setFavourite,
+        options: {
+          ...getDefaultOptions,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: {
+            image_id: tile.id,
+            sub_id: SUB_ID
+          }
         }
       });
     }
   };
 
   useEffect(() => {
-    if (setFavouriteApi.data?.response || deleteFavouriteApi.data?.response) {
+    if (setFavouriteApi.response || deleteFavouriteApi.response) {
       refreshFavourites(`${URL.getFavourite}?sub_id=${SUB_ID}`);
     }
-  }, [setFavouriteApi.data, deleteFavouriteApi.data, refreshFavourites]);
+  }, [
+    setFavouriteApi.response,
+    deleteFavouriteApi.response,
+    refreshFavourites
+  ]);
 
   useEffect(() => {
     if (setFavouriteApi.error || deleteFavouriteApi.error) {
