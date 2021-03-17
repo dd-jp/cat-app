@@ -12,6 +12,10 @@ import { DISLIKE, LIKE, SUB_ID } from '../../constants/ImageContainer';
 import URL from '../../constants/URL';
 import useApi from '../../hooks/useApi';
 import styles from './styles';
+import {
+  getDefaultOptions,
+  postDefaultOptions
+} from '../../hooks/defaultOptions';
 
 const ImageContainerFooter = ({
   classes,
@@ -22,24 +26,30 @@ const ImageContainerFooter = ({
   const createVoteApi = useApi(null);
 
   const handleClick = (type) => {
-    createVoteApi.setUrl({
-      path: URL.createVote,
-      data: {
-        image_id: tile.id,
-        sub_id: SUB_ID,
-        value: type
+    createVoteApi.setRequest({
+      url: URL.createVote,
+      options: {
+        ...postDefaultOptions,
+        data: {
+          image_id: tile.id,
+          sub_id: SUB_ID,
+          value: type
+        }
       }
     });
   };
 
   useEffect(() => {
-    if (createVoteApi.data?.response) {
-      refreshVoteData(`${URL.getVotes}?sub_id=${SUB_ID}`);
+    if (createVoteApi.response?.data) {
+      refreshVoteData({
+        url: `${URL.getVotes}?sub_id=${SUB_ID}`,
+        options: { ...getDefaultOptions }
+      });
       // TODO Add snackBar to display image, use Redux and reuse a single snack bar for whole app
-      alert(createVoteApi.data.response.message);
+      alert(createVoteApi.response.data.message);
     }
     // eslint-disable-next-line
-  }, [createVoteApi.data]);
+  }, [createVoteApi.response]);
 
   useEffect(() => {
     if (createVoteApi.error) {

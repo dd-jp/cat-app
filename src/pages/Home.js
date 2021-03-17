@@ -47,11 +47,11 @@ const Home = () => {
 
       setMetaData(
         tileData.reduce((acc, obj) => {
-          const favourite = getFavouritesApi.data.response.find(
+          const favourite = getFavouritesApi.response.data.find(
             (favObj) => favObj.image_id === obj.id
           );
 
-          const liked = getVoteApi.data.response.find(
+          const liked = getVoteApi.response.data.find(
             (likeObj) => likeObj.image_id === obj.id
           );
 

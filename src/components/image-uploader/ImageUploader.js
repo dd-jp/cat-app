@@ -51,7 +51,7 @@ const ImageUploader = ({ classes }) => {
   };
 
   useEffect(() => {
-    if (uploadApi.response) {
+    if (uploadApi.response?.data) {
       history.push('/');
     }
     // eslint-disable-next-line

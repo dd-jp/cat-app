@@ -56,8 +56,11 @@ const ImageContainerTile = ({
   };
 
   useEffect(() => {
-    if (setFavouriteApi.response || deleteFavouriteApi.response) {
-      refreshFavourites(`${URL.getFavourite}?sub_id=${SUB_ID}`);
+    if (setFavouriteApi.response?.data || deleteFavouriteApi.response?.data) {
+      refreshFavourites({
+        url: `${URL.getFavourite}?sub_id=${SUB_ID}`,
+        options: { ...getDefaultOptions }
+      });
     }
   }, [
     setFavouriteApi.response,
